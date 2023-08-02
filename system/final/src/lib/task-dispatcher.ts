@@ -20,7 +20,7 @@ export default class TaskDispatcher {
     
   }
 
-  dispatch(task: ITask): DispatchedFunctionResult {
+  dispatch(task: ITask): DispatchedFunctionResult | never  {
     let res: DispatchedFunctionResult = {
       status: "failure",
       result: {},
