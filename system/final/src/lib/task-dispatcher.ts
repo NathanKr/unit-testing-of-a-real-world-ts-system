@@ -2,7 +2,8 @@ import {
   DispatchedFunction,
   DispatchedFunctionResult,
 } from "../types/dispatched-function";
-import { Action, ITask } from "../types/i-task";
+import { ITask } from "../types/i-task";
+import { Action } from "../types/types";
 
 /*
 
@@ -28,8 +29,7 @@ export default class TaskDispatcher {
 
     const func = this.mapActionToFunction?.get(task.action);
     if (func) {
-      res.result = func(task.payload);
-      res.status = "success";
+      res = func(task.payload);
     } else {
       throw new Error(`missing function for action : ${task.action}`);
     }

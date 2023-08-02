@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1690964786395" clover="3.2.0">
+  <project timestamp="1690964786395" name="All files">
+    <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6" elements="22" coveredelements="22" complexity="0" loc="14" ncloc="14" packages="1" files="2" classes="2"/>
+    <file name="task-dispatcher.ts" path="F:/Nathan/Misc/GitHub/unit-testing-of-a-real-world-ts-system/system/final/src/lib/task-dispatcher.ts">
+      <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <line num="19" count="5" type="stmt"/>
+      <line num="24" count="5" type="stmt"/>
+      <line num="30" count="5" type="stmt"/>
+      <line num="31" count="5" type="cond" truecount="2" falsecount="0"/>
+      <line num="32" count="3" type="stmt"/>
+      <line num="34" count="2" type="stmt"/>
+      <line num="38" count="3" type="stmt"/>
+    </file>
+    <file name="task-queue.ts" path="F:/Nathan/Misc/GitHub/unit-testing-of-a-real-world-ts-system/system/final/src/lib/task-queue.ts">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="15" count="4" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
+      <line num="36" count="6" type="stmt"/>
+      <line num="40" count="4" type="stmt"/>
+      <line num="49" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
