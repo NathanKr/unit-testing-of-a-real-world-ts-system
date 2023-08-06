@@ -8,10 +8,12 @@ const persist = {
   save(tasks: ITask[]): void {
     const tasksAsString = JSON.stringify(tasks);
     localStorage.setItem(KEY, tasksAsString);
+    console.log(KEY,tasksAsString);
   },
 
   load(): ITask[] {
     const tasksAsString = localStorage.getItem(KEY);
+    console.log(tasksAsString);
     return tasksAsString ? JSON.parse(tasksAsString) : [];
   },
 };
