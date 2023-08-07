@@ -1,6 +1,13 @@
-import { test, expect, beforeEach } from "vitest";
+import { test, expect, beforeEach, vi } from "vitest";
 import taskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
+
+vi.mock('../src/lib/persistence',()=>({
+default : {
+  load : vi.fn(() => []),
+  save : vi.fn(() => {})
+}
+}))
 
 beforeEach(() => {
   taskQueue.clear();
