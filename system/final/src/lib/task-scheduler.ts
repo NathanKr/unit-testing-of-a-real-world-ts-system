@@ -7,17 +7,18 @@
  */
 
 import TaskDispatcher from "./task-dispatcher";
-import taskQueue from "./task-queue";
+import TaskQueue from "./task-queue";
 
 export default class TaskScheduler {
   constructor(
     private intervalSec: number,
-    private taskDispatcher: TaskDispatcher
+    private taskDispatcher: TaskDispatcher,
+    private taskQueue : TaskQueue
   ) {}
 
   start(): void {
     this.handler = window.setInterval(() => {
-      TaskScheduler.dispatchCallback(this.taskDispatcher);
+      TaskScheduler.dispatchCallback(this.taskDispatcher,this.taskQueue);
     }, this.intervalSec * 1000);
   }
 
@@ -26,8 +27,8 @@ export default class TaskScheduler {
   }
 
   // --- static because of closure problem in setInterval
-  private static dispatchCallback(_taskDispatcher: TaskDispatcher) {
-    const task = taskQueue.dequeue();
+  private static dispatchCallback(_taskDispatcher: TaskDispatcher , _taskQueue : TaskQueue) {
+    const task = _taskQueue.dequeue();
     if (task) {
       const res = _taskDispatcher.dispatch(task);
       console.log(res);

@@ -1,8 +1,9 @@
 import { ITask } from "../types/i-task";
 import persist from "./persistence";
 
-const taskQueue = {
-  /* --- insert at queue end
+class TaskQueue{
+
+/* --- insert at queue end
 
   end              start
   ---------------------
@@ -12,9 +13,9 @@ const taskQueue = {
   */
   enqueue(task: ITask): void {
     //put value on end of queue
-    queue.push(task);
-    save();
-  },
+    this.queue.push(task);
+    this.save();
+  }
 
   /* --- take first task from queue head
 
@@ -25,35 +26,41 @@ const taskQueue = {
 
   */
   dequeue(): ITask | undefined {
-    const firstTask = queue.shift();
-    save();
+    const firstTask = this.queue.shift();
+    this.save();
 
     // todo nath no need to save if ifrstTask is null
     return firstTask;
-  },
+  }
 
   length(): number {
-    return queue.length;
-  },
+    return this.queue.length;
+  }
 
   clear(): void {
-    queue.length = 0;
-    save();
-  },
-};
+    this.queue.length = 0;
+    this.save();
+  }
 
-export default taskQueue;
+  private save(): void {
+    persist.save(this.queue);
+  }
+  
+ private  load(): ITask[] {
+    return persist.load();
+  }
 
-// -- private stuff
-
-const queue: ITask[] = load();
-
-
-
-function save(): void {
-  persist.save(queue);
+  private queue: ITask[] = this.load();
 }
 
-function load(): ITask[] {
-  return persist.load();
-}
+
+
+
+export default TaskQueue;
+
+
+
+
+
+
+
