@@ -13,7 +13,7 @@ const taskQueue = {
   enqueue(task: ITask): void {
     //put value on end of queue
     queue.push(task);
-    // save();todo nath bring back
+    save();
   },
 
   /* --- take first task from queue head
@@ -26,7 +26,7 @@ const taskQueue = {
   */
   dequeue(): ITask | undefined {
     const firstTask = queue.shift();
-    // save();todo nath bring back
+    save();
 
     // todo nath no need to save if ifrstTask is null
     return firstTask;
@@ -38,7 +38,7 @@ const taskQueue = {
 
   clear(): void {
     queue.length = 0;
-    // save();todo nath bring back
+    save();
   },
 };
 
@@ -46,12 +46,14 @@ export default taskQueue;
 
 // -- private stuff
 
-const queue: ITask[] =[];// todo nath bring back = load();
+const queue: ITask[] = load();
 
-// function save(): void {
-//   persist.save(queue);
-// }
 
-// function load(): ITask[] {
-//   return persist.load();
-// }
+
+function save(): void {
+  persist.save(queue);
+}
+
+function load(): ITask[] {
+  return persist.load();
+}
