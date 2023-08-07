@@ -90,4 +90,23 @@ test('persist on dequeue is ok',()=>{
   expect(taskB).toStrictEqual(taskSecond);
 })
 
-// ---- persist on clear is ok
+test('persist on clear is ok',()=>{
+  expect(taskQueue.length()).toBe(0);
+
+  const taskFirst: ITask = {
+    action: "action1",
+    payload: {},
+  };
+  const taskSecond: ITask = {
+    action: "action2",
+    payload: {},
+  };
+
+  taskQueue.enqueue(taskFirst);
+  taskQueue.enqueue(taskSecond);
+  expect(taskQueue.length()).toBe(2);
+  taskQueue.clear();
+
+  const taskQueue1 = new TaskQueue();
+  expect(taskQueue1.length()).toBe(0);
+})
