@@ -4,13 +4,6 @@ import { ITask } from "../src/types/i-task";
 
 const taskQueue = new TaskQueue();
 
-// vi.mock('../src/lib/persistence',()=>({
-// default : {
-//   load : vi.fn(() => []),
-//   save : vi.fn(() => {})
-// }
-// }))
-
 beforeEach(() => {
   taskQueue.clear();
 });
