@@ -1,4 +1,4 @@
-import { test, expect, beforeEach, vi } from "vitest";
+import { test, expect, beforeEach } from "vitest";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
 

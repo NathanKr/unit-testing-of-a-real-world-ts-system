@@ -6,6 +6,7 @@
 --- 2) here i have timer but in browser extension this might be alert
  */
 
+import { DispatchedFunctionResult } from "../types/dispatched-function";
 import TaskDispatcher from "./task-dispatcher";
 import TaskQueue from "./task-queue";
 
@@ -13,12 +14,17 @@ export default class TaskScheduler {
   constructor(
     private intervalSec: number,
     private taskDispatcher: TaskDispatcher,
-    private taskQueue : TaskQueue
+    private taskQueue: TaskQueue,
+    private onDispatchResult: (res: DispatchedFunctionResult) => void
   ) {}
 
   start(): void {
     this.handler = window.setInterval(() => {
-      TaskScheduler.dispatchCallback(this.taskDispatcher,this.taskQueue);
+      TaskScheduler.dispatchCallback(
+        this.taskDispatcher,
+        this.taskQueue,
+        this.onDispatchResult
+      );
     }, this.intervalSec * 1000);
   }
 
@@ -27,11 +33,16 @@ export default class TaskScheduler {
   }
 
   // --- static because of closure problem in setInterval
-  private static dispatchCallback(_taskDispatcher: TaskDispatcher , _taskQueue : TaskQueue) {
+  private static dispatchCallback(
+    _taskDispatcher: TaskDispatcher,
+    _taskQueue: TaskQueue,
+    _onDispatchResult: (res: DispatchedFunctionResult) => void
+  ) {
     const task = _taskQueue.dequeue();
     if (task) {
       const res = _taskDispatcher.dispatch(task);
-      console.log(res);
+      _onDispatchResult(res);
+      // console.log(res);
     } else {
       console.log(`queue is empty`);
     }
