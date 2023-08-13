@@ -7,6 +7,7 @@ export enum ButtonsText {
   QueueLength = "queue length",
   EnqueueAdd = "enqueue add(1,2)",
   EnqueueGetPosts = "enqueue getPosts",
+  IsSchedulerRunning = 'is scheduler running'
 }
 
 export interface IEnumKeyValue {
