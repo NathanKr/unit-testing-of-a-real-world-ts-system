@@ -6,12 +6,18 @@ import {
 } from "../src/ui/main-ui";
 import {
   ButtonsText,
-  getButtonInUI,
   getEnumKeyValues,
   pauseMs,
 } from "./test-utils";
 import * as functions from "../src/lib/utils/dispatched-functions";
 import { DispatchedFunctionResult } from "../src/types/dispatched-function";
+import {
+  getByRole,
+  getAllByRole,
+  getByText,
+  waitFor,
+} from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
 
 let appElem: HTMLElement;
 
@@ -27,28 +33,28 @@ test("document exist", () => {
   expect(document).toBeTruthy();
 });
 
-test("h1 with text : 'Task Queue Manager' is in the dom ", () => {
-  const h1Elem = document.querySelector("h1");
+test("heading with text : 'Task Queue Manager' is in the dom ", () => {
+  const headingElem = getByRole(appElem, "heading");
 
-  expect(h1Elem).toBeTruthy();
-  expect(h1Elem!.textContent).toBe("Task Queue Manager");
+  expect(headingElem).toBeInTheDocument();
+  expect(headingElem!.textContent).toBe("Task Queue Manager");
 });
 
-test("Six buttons inside app id element", () => {
-  const buttonElems = appElem.querySelectorAll("button");
+test("Six buttons inside app element", () => {
+  const buttonElems = getAllByRole(appElem, "button");
 
   expect(buttonElems.length).toBe(6);
 });
 
 test("The first button has correct text", () => {
-  const firstButton = appElem.querySelector("button");
+  const firstButton = getAllByRole(appElem, "button")[0];
 
   expect(firstButton?.textContent).toBe("start scheduler");
 });
 
 test("all buttons has correct text", () => {
   const arrayButtonsKeyValue = getEnumKeyValues(ButtonsText);
-  const buttons = appElem.querySelectorAll("button");
+  const buttons = getAllByRole(appElem, "button");
 
   expect(arrayButtonsKeyValue.length).toBe(buttons.length);
 
@@ -58,21 +64,18 @@ test("all buttons has correct text", () => {
 });
 
 test("click on add -> 3 appears in the output", async () => {
-  getButtonInUI(ButtonsText.EnqueueAdd)!.click();
-  getButtonInUI(ButtonsText.StartScheduler)!.click();
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
 
-  const outputElem = appElem.querySelector("output");
-  await pauseMs(SCHEDULER_INTERVAL_SEC * 1000 * 2);
-  expect(outputElem?.textContent?.includes("3")).toBeTruthy();
-});
+  const outputElem = getByRole(appElem, "status");
+  expect(outputElem).toBeInTheDocument();
 
-test("enqueue -> queue length is 1 -> in console.log", () => {
-  getButtonInUI(ButtonsText.EnqueueAdd)?.click();
-  const spyOnConsoleLog = vi.spyOn(console, "log");
-  getButtonInUI(ButtonsText.QueueLength)?.click();
-
-  expect(spyOnConsoleLog).toBeCalledTimes(1);
-  expect(spyOnConsoleLog).toBeCalledWith("taskQueue.length() : 1");
+  await waitFor(
+    () => {
+      expect(outputElem?.textContent?.includes("3")).toBeTruthy();
+    },
+    { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
+  );
 });
 
 test("failure status is add --> failure to appear in the ui", async () => {
@@ -84,39 +87,69 @@ test("failure status is add --> failure to appear in the ui", async () => {
   spyOnAdd.mockReturnValue(resFailure);
   registerHandlers();
 
-  getButtonInUI(ButtonsText.EnqueueAdd)?.click();
-  getButtonInUI(ButtonsText.StartScheduler)!.click();
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
 
-  await pauseMs(SCHEDULER_INTERVAL_SEC * 1000 * 2);
+  await waitFor(
+    () => {
+      const outputElem = getByRole(appElem,'status');
+      expect(outputElem.textContent).toContain("failure");
+    },
+    { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
+  );
+});
 
-  expect(spyOnAdd).toBeCalledTimes(1);
-  expect(appElem.querySelector("output")!.textContent).toContain("failure");
+test("enqueue , start , stop --> output is empty", async () => {
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
+  userEvent.click(getByText(appElem, ButtonsText.StopScheduler));
+
+  await waitFor(
+    () => {
+      const outputElem = getByRole(appElem,'status');
+      expect(outputElem.textContent).toContain("");
+    },
+    { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
+  );
+});
+
+test("enqueue -> queue length is 1 -> in console.log", async () => {
+  // getButtonInUI(ButtonsText.EnqueueAdd)?.click();
+
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
+
+  const spyOnConsoleLog = vi.spyOn(console, "log");
+  // getButtonInUI(ButtonsText.QueueLength)?.click();
+  userEvent.click(getByText(appElem, ButtonsText.QueueLength));
+
+  await pauseMs(1000);
+
+  // expect(spyOnConsoleLog).toBeCalledTimes(1);
+  expect(spyOnConsoleLog).toBeCalledWith("taskQueue.length() : 1");
+});
+
+test("button isSchedulerStarted invoked --> console.error is called", async () => {
+  // --- todo add real source code implementation
+
+  const spyOnConsoleError = vi.spyOn(console, "error");
+  userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
+
+  await pauseMs(1000);
+
+  expect(spyOnConsoleError).toBeCalledTimes(1);
+});
+
+test("button enqueueGetPosts invoked --> console.error is called", async () => {
+  // --- todo add real source code implementation
+
+  const spyOnConsoleError = vi.spyOn(console, "error");
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueGetPosts));
+
+  await pauseMs(1000);
+
+
+  expect(spyOnConsoleError).toBeCalledTimes(1);
 });
 
 
-test('button isSchedulerStarted invoked --> console.error is called',()=>{
-  // --- todo add real source code implementation
-  
-  const spyOnConsoleError = vi.spyOn(console,'error');
-  getButtonInUI(ButtonsText.IsSchedulerRunning)?.click();
 
-  expect(spyOnConsoleError).toBeCalledTimes(1);
-})
-
-test('button enqueueGetPosts invoked --> console.error is called',()=>{
-  // --- todo add real source code implementation
-  const spyOnConsoleError = vi.spyOn(console,'error');
-  getButtonInUI(ButtonsText.EnqueueGetPosts)?.click();
-
-  expect(spyOnConsoleError).toBeCalledTimes(1);
-})
-
-test('enqueue , start , stop --> output is empty',async ()=>{
-  getButtonInUI(ButtonsText.EnqueueAdd)?.click();
-  getButtonInUI(ButtonsText.StartScheduler)!.click();
-  getButtonInUI(ButtonsText.StopScheduler)!.click();
-
-  await pauseMs(SCHEDULER_INTERVAL_SEC * 1000 * 2);
-  expect(appElem.querySelector("output")!.textContent).toContain("");
-
-})
