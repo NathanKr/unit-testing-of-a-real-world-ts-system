@@ -16,6 +16,7 @@ import {
   getAllByRole,
   getByText,
   waitFor,
+  findByText,
 } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
@@ -128,15 +129,15 @@ test("enqueue -> queue length is 1 -> in console.log", async () => {
   expect(spyOnConsoleLog).toBeCalledWith("taskQueue.length() : 1");
 });
 
-test("button isSchedulerStarted invoked --> console.error is called", async () => {
-  // --- todo add real source code implementation
-
-  const spyOnConsoleError = vi.spyOn(console, "error");
+test("button isSchedulerStarted invoked --> correct value in output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
+  let outputElemWithText = await findByText(appElem,'isSchedulerStarted : false')
+  expect(outputElemWithText).toBeInTheDocument();
 
-  await pauseMs(1000);
-
-  expect(spyOnConsoleError).toBeCalledTimes(1);
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler))
+  userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
+  outputElemWithText = await findByText(appElem,'isSchedulerStarted : true');
+  expect(outputElemWithText).toBeInTheDocument();
 });
 
 test("button enqueueGetPosts invoked --> console.error is called", async () => {

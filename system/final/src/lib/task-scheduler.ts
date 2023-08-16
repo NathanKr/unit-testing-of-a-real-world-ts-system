@@ -15,10 +15,13 @@ export default class TaskScheduler {
     private intervalSec: number,
     private taskDispatcher: TaskDispatcher,
     private taskQueue: TaskQueue,
-    private onDispatchResult: (res: DispatchedFunctionResult) => void
-  ) {}
+    private onDispatchResult ?: (res: DispatchedFunctionResult) => void
+  ) {
+    this._isStarted = false;
+  }
 
   start(): void {
+    this._isStarted = true;
     this.handler = window.setInterval(() => {
       TaskScheduler.dispatchCallback(
         this.taskDispatcher,
@@ -29,19 +32,26 @@ export default class TaskScheduler {
   }
 
   stop(): void {
+    this._isStarted = false;
     clearInterval(this.handler);
   }
 
+  isStarted() : boolean{
+    return this._isStarted;
+  }
   // --- static because of closure problem in setInterval
   private static dispatchCallback(
     _taskDispatcher: TaskDispatcher,
     _taskQueue: TaskQueue,
-    _onDispatchResult: (res: DispatchedFunctionResult) => void
+    _onDispatchResult ?: (res: DispatchedFunctionResult) => void
   ) {
     const task = _taskQueue.dequeue();
     if (task) {
       const res = _taskDispatcher.dispatch(task);
-      _onDispatchResult(res);
+      if(_onDispatchResult){
+        _onDispatchResult(res);
+      }
+      
       // console.log(res);
     } else {
       console.log(`queue is empty`);
@@ -49,4 +59,5 @@ export default class TaskScheduler {
   }
 
   private handler: number | undefined;
+  private _isStarted : boolean;
 }

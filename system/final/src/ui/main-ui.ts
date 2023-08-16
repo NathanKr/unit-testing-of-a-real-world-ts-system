@@ -39,6 +39,7 @@ export function registerHandlers() {
 
   const taskQueue = new TaskQueue();
   const oTaskDispatcher = new TaskDispatcher(map);
+  let oTaskScheduler: TaskScheduler;
 
   const onDispatchResult = (res: DispatchedFunctionResult) => {
     let htmlAsString = `<h3>get task processing result</h3>`;
@@ -57,7 +58,7 @@ export function registerHandlers() {
     )!.innerHTML = `<p>${now}</p>${htmlAsString}`;
   };
 
-  const oTaskScheduler = new TaskScheduler(
+  oTaskScheduler = new TaskScheduler(
     SCHEDULER_INTERVAL_SEC,
     oTaskDispatcher,
     taskQueue,
@@ -104,9 +105,8 @@ export function registerHandlers() {
   }
 
   function isSchedulerStarted(): void {
-    console.error(
-      `isSchedulerStarted not implemented because it requires
-       api change in TaskScheduler`
-    );
+    document.querySelector(
+      "output"
+    )!.innerHTML = `isSchedulerStarted : ${oTaskScheduler.isStarted()}`;
   }
 }

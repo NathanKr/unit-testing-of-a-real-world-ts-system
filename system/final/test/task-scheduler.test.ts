@@ -123,3 +123,14 @@ test("enqueue two tasks , start and atop", () => {
     fakeClock.tick(intervalSec * 1000);
     expect(onDispatchResult).toBeCalledTimes(1);
 });
+
+
+test('isStarted is ok',()=>{
+  const taskScheduler = new TaskScheduler(intervalSec,taskDispatcher,taskQueue);
+
+  expect(taskScheduler.isStarted()).toBe(false);
+  taskScheduler.start();
+  expect(taskScheduler.isStarted()).toBe(true);
+  taskScheduler.stop();
+  expect(taskScheduler.isStarted()).toBe(false);
+})
