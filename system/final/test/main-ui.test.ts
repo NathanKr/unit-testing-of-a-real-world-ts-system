@@ -114,19 +114,12 @@ test("enqueue , start , stop --> output is empty", async () => {
   );
 });
 
-test("enqueue -> queue length is 1 -> in console.log", async () => {
-  // getButtonInUI(ButtonsText.EnqueueAdd)?.click();
-
+test("enqueue -> queue length is 1 --> correct value in output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
-
-  const spyOnConsoleLog = vi.spyOn(console, "log");
-  // getButtonInUI(ButtonsText.QueueLength)?.click();
   userEvent.click(getByText(appElem, ButtonsText.QueueLength));
 
-  await pauseMs(1000);
-
-  // expect(spyOnConsoleLog).toBeCalledTimes(1);
-  expect(spyOnConsoleLog).toBeCalledWith("taskQueue.length() : 1");
+  const outputElemWithText = await findByText(appElem,'taskQueue.length() : 1');
+  expect(outputElemWithText).toBeInTheDocument();
 });
 
 test("button isSchedulerStarted invoked --> correct value in output", async () => {

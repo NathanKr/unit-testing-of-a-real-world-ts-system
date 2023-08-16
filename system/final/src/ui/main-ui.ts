@@ -101,7 +101,9 @@ export function registerHandlers() {
   }
 
   function queueLengthClickHandle(): void {
-    console.log(`taskQueue.length() : ${taskQueue.length()}`);
+    document.querySelector(
+      "output"
+    )!.innerHTML = `taskQueue.length() : ${taskQueue.length()}`;
   }
 
   function isSchedulerStarted(): void {
