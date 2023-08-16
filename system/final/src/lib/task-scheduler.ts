@@ -15,7 +15,7 @@ export default class TaskScheduler {
     private intervalSec: number,
     private taskDispatcher: TaskDispatcher,
     private taskQueue: TaskQueue,
-    private onDispatchResult ?: (res: DispatchedFunctionResult) => void
+    private onDispatchResult?: (res: DispatchedFunctionResult) => void
   ) {
     this._isStarted = false;
   }
@@ -36,28 +36,24 @@ export default class TaskScheduler {
     clearInterval(this.handler);
   }
 
-  isStarted() : boolean{
+  isStarted(): boolean {
     return this._isStarted;
   }
   // --- static because of closure problem in setInterval
   private static dispatchCallback(
     _taskDispatcher: TaskDispatcher,
     _taskQueue: TaskQueue,
-    _onDispatchResult ?: (res: DispatchedFunctionResult) => void
+    _onDispatchResult?: (res: DispatchedFunctionResult) => void
   ) {
     const task = _taskQueue.dequeue();
     if (task) {
       const res = _taskDispatcher.dispatch(task);
-      if(_onDispatchResult){
-        _onDispatchResult(res);
-      }
-      
-      // console.log(res);
+      _onDispatchResult && _onDispatchResult(res);
     } else {
       console.log(`queue is empty`);
     }
   }
 
   private handler: number | undefined;
-  private _isStarted : boolean;
+  private _isStarted: boolean;
 }
