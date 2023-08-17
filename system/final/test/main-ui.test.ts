@@ -26,6 +26,22 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
+
+test("button enqueueGetPosts invoked --> 100 in output", async () => {
+  userEvent.click(getByText(appElem, ButtonsText.EnqueueGetPosts));
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
+
+  const outputElem = getByRole(appElem, "status");
+  expect(outputElem).toBeInTheDocument();
+
+  await waitFor(
+    () => {
+      expect(outputElem.textContent).contain("100");
+    },
+    { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
+  );
+});
+
 test("document exist", () => {
   expect(document).toBeTruthy();
 });
@@ -135,13 +151,4 @@ test("button isSchedulerStarted invoked --> correct value in output", async () =
   expect(outputElemWithText).toBeInTheDocument();
 });
 
-test("button enqueueGetPosts invoked --> console.error is called", async () => {
-  // --- todo add real source code implementation
 
-  const spyOnConsoleError = vi.spyOn(console, "error");
-  userEvent.click(getByText(appElem, ButtonsText.EnqueueGetPosts));
-
-  await pauseMs(1000);
-
-  expect(spyOnConsoleError).toBeCalledTimes(1);
-});

@@ -8,7 +8,7 @@ import {
   DispatchedFunction,
   DispatchedFunctionResult,
 } from "../types/dispatched-function.ts";
-import { add } from "../lib/utils/dispatched-functions.ts";
+import { add, getPosts } from "../lib/utils/dispatched-functions.ts";
 import dayjs from 'dayjs'
 
 export const SCHEDULER_INTERVAL_SEC = 2;
@@ -35,7 +35,7 @@ export function registerHandlers() {
   // --- create a map
   const map = new Map<Action, DispatchedFunction>();
   map.set("add", add);
-  // map.set('getPosts', getPosts);
+  map.set("getPosts", getPosts);
 
   const taskQueue = new TaskQueue();
   const oTaskDispatcher = new TaskDispatcher(map);
@@ -93,11 +93,9 @@ export function registerHandlers() {
   }
 
   function enqueueGetPosts(): void {
-    // --- enqueue task
-    console.error(
-      `enqueueGetPosts not implemented because async getPosts 
-        require dispatch support for async`
-    );
+    // --- enqueue task getPosts
+    const payload = null;
+    taskQueue.enqueue({ action: "getPosts", payload });
   }
 
   function queueLengthClickHandle(): void {
