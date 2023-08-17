@@ -27,10 +27,10 @@ export const getPosts : DispatchedFunction = async ()=>{
       "https://jsonplaceholder.typicode.com/posts"
     );
     const posts: IPost[] = await response.json();
-    res.result = posts;
+    res.result = posts.length;
     res.status = "success";
   } catch (err) {
-    console.error(err);
+    res.error = err;
   }
 
   return res;
@@ -43,4 +43,4 @@ interface IPost {
   title: string;
   completed: boolean;
 }
-export type GetPostsReturn = IPost[];
+export type GetPostsReturn = number;
