@@ -6,15 +6,16 @@ import { Action } from "../src/types/types";
 import { DispatchedFunction } from "../src/types/dispatched-function";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
+import { flushPromises } from "./test-utils";
 
 let fakeClock: FakeTimers.InstalledClock;
 const intervalSec = 100;
 const map: Map<Action, DispatchedFunction> = new Map();
 map.set("action1", () => {
-  return { status: "failure", result: {} };
+  return  Promise.resolve({ status: "failure", result: {} });
 });
 map.set("action2", () => {
-  return { status: "success", result: {} };
+  return Promise.resolve({ status: "success", result: {} });
 });
 
 const taskDispatcher: TaskDispatcher = new TaskDispatcher(map);
@@ -43,7 +44,7 @@ test("progress the fake time using tics function", () => {
   expect(time).toBe(50000);
 });
 
-test("enqueue a task , start , wait for interval and get the result", () => {
+test("enqueue a task , start , wait for interval and get the result", async () => {
   const onDispatchResult = vi.fn();
   const taskScheduler = new TaskScheduler(
     intervalSec,
@@ -65,9 +66,12 @@ test("enqueue a task , start , wait for interval and get the result", () => {
 
   expect(onDispatchResult).toBeCalledTimes(0);
   fakeClock.tick(intervalSec * 1000);
+  await flushPromises();
   expect(onDispatchResult).toBeCalledTimes(1);
   expect(onDispatchResult).toBeCalledWith({ status: "failure", result: {} });
+
   fakeClock.tick(intervalSec * 1000);
+  await flushPromises();
   expect(onDispatchResult).toBeCalledTimes(1);
 });
 
@@ -91,7 +95,7 @@ test("enqueue a task , no start , wait for interval and no callback called", () 
   expect(onDispatchResult).toBeCalledTimes(0);
 });
 
-test("enqueue two tasks , start and atop", () => {
+test("enqueue two tasks , start and atop", async () => {
     const onDispatchResult = vi.fn();
     const taskScheduler = new TaskScheduler(
       intervalSec,
@@ -118,9 +122,12 @@ test("enqueue two tasks , start and atop", () => {
   
     expect(onDispatchResult).toBeCalledTimes(0);
     fakeClock.tick(intervalSec * 1000);
+    await flushPromises();
     expect(onDispatchResult).toBeCalledTimes(1);
+
     taskScheduler.stop();
     fakeClock.tick(intervalSec * 1000);
+    await flushPromises();
     expect(onDispatchResult).toBeCalledTimes(1);
 });
 

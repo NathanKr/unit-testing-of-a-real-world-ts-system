@@ -4,17 +4,19 @@ import { DispatchedFunction } from "../src/types/dispatched-function";
 import { ITask } from "../src/types/i-task";
 import { Action } from "../src/types/types";
 
-test("map empty -> dispatch throw", () => {
+test("map empty -> status is failure and error with missing action name", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
   const oTaskDispatcher = new TaskDispatcher(map);
   const task1: ITask = {
     action: "action1",
     payload: {},
   };
-  expect(() => oTaskDispatcher.dispatch(task1)).toThrowError();
+  const res = await oTaskDispatcher.dispatch(task1);
+  expect(res.status).toBe("failure");
+  expect(res.error).toContain("action");
 });
 
-test("action not in map -> dispatch throw", () => {
+test("action not in map -> status is failure and error with missing action name", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
   const oTaskDispatcher = new TaskDispatcher(map);
   const task1: ITask = {
@@ -24,12 +26,15 @@ test("action not in map -> dispatch throw", () => {
 
   // --- todo fix later (refactoing \ advanced chapter) by not passing a function
   map.set("action2", () => {
-    return { status: "failure", result: {} };
+    return Promise.resolve({ status: "failure", result: {} });
   });
-  expect(() => oTaskDispatcher.dispatch(task1)).toThrowError();
+
+  const res = await oTaskDispatcher.dispatch(task1);
+  expect(res.status).toBe("failure");
+  expect(res.error).toContain("action1");
 });
 
-test("dispatch ok -> status is success", () => {
+test("dispatch ok -> status is success", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
   const oTaskDispatcher = new TaskDispatcher(map);
   const task1: ITask = {
@@ -39,14 +44,14 @@ test("dispatch ok -> status is success", () => {
 
   // --- todo fix later (refactoing \ advanced chapter) by not passing a function
   map.set("action1", () => {
-    return { status: "success", result: {} };
+    return Promise.resolve({ status: "success", result: {} });
   });
 
-  const res = oTaskDispatcher.dispatch(task1);
+  const res = await oTaskDispatcher.dispatch(task1);
   expect(res.status).toBe("success");
 });
 
-test("dispatch not ok -> status is failure", () => {
+test("dispatch not ok -> status is failure", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
   const oTaskDispatcher = new TaskDispatcher(map);
   const task1: ITask = {
@@ -56,14 +61,14 @@ test("dispatch not ok -> status is failure", () => {
 
   // --- todo fix later (refactoing \ advanced chapter) by not passing a function
   map.set("action1", () => {
-    return { status: "failure", result: {} };
+    return Promise.resolve({ status: "failure", result: {} });
   });
 
-  const res = oTaskDispatcher.dispatch(task1);
+  const res = await oTaskDispatcher.dispatch(task1);
   expect(res.status).toBe("failure");
 });
 
-test("dispatch result is ok for add", () => {
+test("dispatch result is ok for add", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
   const oTaskDispatcher = new TaskDispatcher(map);
   const task1: ITask = {
@@ -75,11 +80,14 @@ test("dispatch result is ok for add", () => {
     n1: number;
     n2: number;
   }) => {
-    return { status: "success", result: payload.n1 + payload.n2 };
+    return Promise.resolve({
+      status: "success",
+      result: payload.n1 + payload.n2,
+    });
   };
 
   map.set("action1", addDispatch);
-  const res = oTaskDispatcher.dispatch(task1);
+  const res = await oTaskDispatcher.dispatch(task1);
   expect(res.status).toBe("success");
   expect(res.result).toBe(3);
 });

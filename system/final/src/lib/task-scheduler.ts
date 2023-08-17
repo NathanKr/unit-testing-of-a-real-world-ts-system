@@ -40,17 +40,17 @@ export default class TaskScheduler {
     return this._isStarted;
   }
   // --- static because of closure problem in setInterval
-  private static dispatchCallback(
+  private static async dispatchCallback(
     _taskDispatcher: TaskDispatcher,
     _taskQueue: TaskQueue,
     _onDispatchResult?: (res: DispatchedFunctionResult) => void
   ) {
     const task = _taskQueue.dequeue();
     if (task) {
-      const res = _taskDispatcher.dispatch(task);
+      const res = await _taskDispatcher.dispatch(task);
       _onDispatchResult && _onDispatchResult(res);
     } else {
-      console.log(`queue is empty`);
+      // console.log(`queue is empty`);
     }
   }
 

@@ -3,7 +3,7 @@ import {
   DispatchedFunctionResult,
 } from "../../types/dispatched-function";
 
-export const add: DispatchedFunction = (obj: { n1: number; n2: number }) => {
+export const add: DispatchedFunction = async (obj: { n1: number; n2: number }) => {
   const res: DispatchedFunctionResult = {
     status: "success",
     result: obj.n1 + obj.n2,
@@ -15,8 +15,7 @@ export const add: DispatchedFunction = (obj: { n1: number; n2: number }) => {
 export type AddReturn = number;
 
 
-/*
-todo , use after dispatch handle async operation
+
 export const getPosts : DispatchedFunction = async ()=>{
   const res: DispatchedFunctionResult = {
     status: "failure",
@@ -38,8 +37,6 @@ export const getPosts : DispatchedFunction = async ()=>{
 } 
 
 
-
- */
 interface IPost {
   userId: number;
   id: number;

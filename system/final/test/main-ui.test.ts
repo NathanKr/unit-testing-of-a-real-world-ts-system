@@ -4,11 +4,7 @@ import {
   createDom,
   registerHandlers,
 } from "../src/ui/main-ui";
-import {
-  ButtonsText,
-  getEnumKeyValues,
-  pauseMs,
-} from "./test-utils";
+import { ButtonsText, getEnumKeyValues, pauseMs } from "./test-utils";
 import * as functions from "../src/lib/utils/dispatched-functions";
 import { DispatchedFunctionResult } from "../src/types/dispatched-function";
 import {
@@ -81,10 +77,10 @@ test("click on add -> 3 appears in the output", async () => {
 
 test("failure status is add --> failure to appear in the ui", async () => {
   const spyOnAdd = vi.spyOn(functions, "add");
-  const resFailure: DispatchedFunctionResult = {
+  const resFailure: Promise<DispatchedFunctionResult> = Promise.resolve({
     status: "failure",
     result: undefined,
-  };
+  });
   spyOnAdd.mockReturnValue(resFailure);
   registerHandlers();
 
@@ -93,7 +89,7 @@ test("failure status is add --> failure to appear in the ui", async () => {
 
   await waitFor(
     () => {
-      const outputElem = getByRole(appElem,'status');
+      const outputElem = getByRole(appElem, "status");
       expect(outputElem.textContent).toContain("failure");
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
@@ -107,7 +103,7 @@ test("enqueue , start , stop --> output is empty", async () => {
 
   await waitFor(
     () => {
-      const outputElem = getByRole(appElem,'status');
+      const outputElem = getByRole(appElem, "status");
       expect(outputElem.textContent).toContain("");
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
@@ -118,18 +114,24 @@ test("enqueue -> queue length is 1 --> correct value in output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
   userEvent.click(getByText(appElem, ButtonsText.QueueLength));
 
-  const outputElemWithText = await findByText(appElem,'taskQueue.length() : 1');
+  const outputElemWithText = await findByText(
+    appElem,
+    "taskQueue.length() : 1"
+  );
   expect(outputElemWithText).toBeInTheDocument();
 });
 
 test("button isSchedulerStarted invoked --> correct value in output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
-  let outputElemWithText = await findByText(appElem,'isSchedulerStarted : false')
+  let outputElemWithText = await findByText(
+    appElem,
+    "isSchedulerStarted : false"
+  );
   expect(outputElemWithText).toBeInTheDocument();
 
-  userEvent.click(getByText(appElem, ButtonsText.StartScheduler))
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
   userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
-  outputElemWithText = await findByText(appElem,'isSchedulerStarted : true');
+  outputElemWithText = await findByText(appElem, "isSchedulerStarted : true");
   expect(outputElemWithText).toBeInTheDocument();
 });
 
@@ -141,9 +143,5 @@ test("button enqueueGetPosts invoked --> console.error is called", async () => {
 
   await pauseMs(1000);
 
-
   expect(spyOnConsoleError).toBeCalledTimes(1);
 });
-
-
-

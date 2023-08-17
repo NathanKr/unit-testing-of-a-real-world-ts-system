@@ -20,7 +20,7 @@ export default class TaskDispatcher {
     
   }
 
-  dispatch(task: ITask): DispatchedFunctionResult | never  {
+  async dispatch(task: ITask): Promise<DispatchedFunctionResult | never>  {
     let res: DispatchedFunctionResult = {
       status: "failure",
       result: {},
@@ -29,9 +29,9 @@ export default class TaskDispatcher {
 
     const func = this.mapActionToFunction?.get(task.action);
     if (func) {
-      res = func(task.payload);
+      res = await func(task.payload);
     } else {
-      throw new Error(`missing function for action : ${task.action}`);
+      res.error = `missing function for action : ${task.action}`
     }
 
     // --- invoke
