@@ -44,7 +44,7 @@ test("progress the fake time using tics function", () => {
   expect(time).toBe(50000);
 });
 
-test("enqueue a task , start , wait for interval and get the result", async () => {
+test("enqueue a task , start , wait for interval and get the result and action", async () => {
   const onDispatchResult = vi.fn();
   const taskScheduler = new TaskScheduler(
     intervalSec,
@@ -68,7 +68,10 @@ test("enqueue a task , start , wait for interval and get the result", async () =
   fakeClock.tick(intervalSec * 1000);
   await flushPromises();
   expect(onDispatchResult).toBeCalledTimes(1);
-  expect(onDispatchResult).toBeCalledWith({ status: "failure", result: {} });
+  expect(onDispatchResult).toBeCalledWith(
+    { status: "failure", result: {} },
+    "action1"
+  );
 
   fakeClock.tick(intervalSec * 1000);
   await flushPromises();
@@ -193,5 +196,4 @@ test("long processing task casue scheduling skip", async () => {
 
   await pauseMs(0.7 * intervalSec * 1000);
   expect(onDispatchResult).toBeCalledTimes(2);
-
 });

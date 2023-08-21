@@ -9,7 +9,7 @@ import {
   DispatchedFunctionResult,
 } from "../types/dispatched-function.ts";
 import { add, getPosts } from "../lib/utils/dispatched-functions.ts";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 export const SCHEDULER_INTERVAL_SEC = 2;
 
@@ -41,8 +41,8 @@ export function registerHandlers() {
   const oTaskDispatcher = new TaskDispatcher(map);
   let oTaskScheduler: TaskScheduler;
 
-  const onDispatchResult = (res: DispatchedFunctionResult) => {
-    let htmlAsString = `<h3>get task processing result</h3>`;
+  const onDispatchResult = (res: DispatchedFunctionResult, action: Action) => {
+    let htmlAsString = `<h2>Action : ${action}</h2><h3>get task processing result</h3>`;
 
     if (res.status == "failure") {
       htmlAsString += `<div>failure</div>`;

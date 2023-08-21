@@ -4,7 +4,7 @@ import {
   createDom,
   registerHandlers,
 } from "../src/ui/main-ui";
-import { ButtonsText, getEnumKeyValues, pauseMs } from "./test-utils";
+import { ButtonsText, getEnumKeyValues } from "./test-utils";
 import * as functions from "../src/lib/utils/dispatched-functions";
 import { DispatchedFunctionResult } from "../src/types/dispatched-function";
 import {
@@ -27,7 +27,7 @@ beforeEach(() => {
 });
 
 
-test("button enqueueGetPosts invoked --> 100 in output", async () => {
+test("button enqueueGetPosts invoked --> getPosts and 100 in output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.EnqueueGetPosts));
   userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
 
@@ -37,6 +37,7 @@ test("button enqueueGetPosts invoked --> 100 in output", async () => {
   await waitFor(
     () => {
       expect(outputElem.textContent).contain("100");
+      expect(outputElem.textContent).contain("getPosts")
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
   );
@@ -76,7 +77,7 @@ test("all buttons has correct text", () => {
   });
 });
 
-test("click on add -> 3 appears in the output", async () => {
+test("click on add -> 3 and add appears in the output", async () => {
   userEvent.click(getByText(appElem, ButtonsText.EnqueueAdd));
   userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
 
@@ -85,7 +86,8 @@ test("click on add -> 3 appears in the output", async () => {
 
   await waitFor(
     () => {
-      expect(outputElem?.textContent?.includes("3")).toBeTruthy();
+      expect(outputElem.textContent).toContain(3);
+      expect(outputElem.textContent).contain("add")
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
   );

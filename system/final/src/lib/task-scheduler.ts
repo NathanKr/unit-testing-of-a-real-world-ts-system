@@ -7,6 +7,7 @@
  */
 
 import { DispatchedFunctionResult } from "../types/dispatched-function";
+import { Action } from "../types/types";
 import TaskDispatcher from "./task-dispatcher";
 import TaskQueue from "./task-queue";
 
@@ -15,7 +16,10 @@ export default class TaskScheduler {
     private intervalSec: number,
     private taskDispatcher: TaskDispatcher,
     private taskQueue: TaskQueue,
-    private onDispatchResult?: (res: DispatchedFunctionResult) => void
+    private onDispatchResult?: (
+      res: DispatchedFunctionResult,
+      action: Action
+    ) => void
   ) {
     this._isStarted = false;
     this.isDispatching = false;
@@ -43,7 +47,7 @@ export default class TaskScheduler {
       const task = this.taskQueue.dequeue();
       if (task) {
         const res = await this.taskDispatcher.dispatch(task);
-        this.onDispatchResult && this.onDispatchResult(res);
+        this.onDispatchResult && this.onDispatchResult(res, task.action);
       }
       this.isDispatching = false;
     }
