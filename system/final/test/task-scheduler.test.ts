@@ -6,13 +6,13 @@ import { Action } from "../src/types/types";
 import { DispatchedFunction } from "../src/types/dispatched-function";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
-import { flushPromises } from "./test-utils";
+import { flushPromises, pauseMs } from "./test-utils";
 
 let fakeClock: FakeTimers.InstalledClock;
 const intervalSec = 100;
 const map: Map<Action, DispatchedFunction> = new Map();
 map.set("action1", () => {
-  return  Promise.resolve({ status: "failure", result: {} });
+  return Promise.resolve({ status: "failure", result: {} });
 });
 map.set("action2", () => {
   return Promise.resolve({ status: "success", result: {} });
@@ -96,48 +96,102 @@ test("enqueue a task , no start , wait for interval and no callback called", () 
 });
 
 test("enqueue two tasks , start and atop", async () => {
-    const onDispatchResult = vi.fn();
-    const taskScheduler = new TaskScheduler(
-      intervalSec,
-      taskDispatcher,
-      taskQueue,
-      onDispatchResult
-    );
-  
-    const task1: ITask = {
-      action: "action1",
-      payload: { baz: "hello" },
-    };
-    const task2: ITask = {
-        action: "action2",
-        payload: { foo: 1 },
-      };
-  
-    let time = Date.now();
-    expect(time).toBe(0);
-  
-    taskQueue.enqueue(task1);
-    taskQueue.enqueue(task2);
-    taskScheduler.start();
-  
-    expect(onDispatchResult).toBeCalledTimes(0);
-    fakeClock.tick(intervalSec * 1000);
-    await flushPromises();
-    expect(onDispatchResult).toBeCalledTimes(1);
+  const onDispatchResult = vi.fn();
+  const taskScheduler = new TaskScheduler(
+    intervalSec,
+    taskDispatcher,
+    taskQueue,
+    onDispatchResult
+  );
 
-    taskScheduler.stop();
-    fakeClock.tick(intervalSec * 1000);
-    await flushPromises();
-    expect(onDispatchResult).toBeCalledTimes(1);
+  const task1: ITask = {
+    action: "action1",
+    payload: { baz: "hello" },
+  };
+  const task2: ITask = {
+    action: "action2",
+    payload: { foo: 1 },
+  };
+
+  let time = Date.now();
+  expect(time).toBe(0);
+
+  taskQueue.enqueue(task1);
+  taskQueue.enqueue(task2);
+  taskScheduler.start();
+
+  expect(onDispatchResult).toBeCalledTimes(0);
+  fakeClock.tick(intervalSec * 1000);
+  await flushPromises();
+  expect(onDispatchResult).toBeCalledTimes(1);
+
+  taskScheduler.stop();
+  fakeClock.tick(intervalSec * 1000);
+  await flushPromises();
+  expect(onDispatchResult).toBeCalledTimes(1);
 });
 
-
-test('isStarted is ok',()=>{
-  const taskScheduler = new TaskScheduler(intervalSec,taskDispatcher,taskQueue);
+test("isStarted is ok", () => {
+  const taskScheduler = new TaskScheduler(
+    intervalSec,
+    taskDispatcher,
+    taskQueue
+  );
 
   expect(taskScheduler.isStarted()).toBe(false);
   taskScheduler.start();
   expect(taskScheduler.isStarted()).toBe(true);
   taskScheduler.stop();
   expect(taskScheduler.isStarted()).toBe(false);
-})
+});
+
+test("long processing task casue scheduling skip", async () => {
+  fakeClock.uninstall();
+  const intervalSec = 1;
+
+  const time = Date.now();
+  expect(time).not.toBe(0);
+
+  const task1: ITask = {
+    action: "action3",
+    payload: {},
+  };
+
+  const onDispatchResult = vi.fn();
+  const taskScheduler = new TaskScheduler(
+    intervalSec,
+    taskDispatcher,
+    taskQueue,
+    onDispatchResult
+  );
+
+  map.set("action3", async () => {
+    await pauseMs(1.5 * intervalSec * 1000);
+    return { status: "success", result: {} };
+  });
+
+  taskQueue.enqueue(task1);
+  taskQueue.enqueue(task1);
+  taskScheduler.start();
+
+  await pauseMs(1.0 * intervalSec * 1000);
+  // -- task1 start processing on inerval 1 , 1.5 sec
+  expect(onDispatchResult).toBeCalledTimes(0);
+
+  await pauseMs(1 * intervalSec * 1000);
+  // -- task1 continue processing on inerval 2 , 0.5 sec to go
+  expect(onDispatchResult).toBeCalledTimes(0);
+
+  await pauseMs(0.7 * intervalSec * 1000);
+  expect(onDispatchResult).toBeCalledTimes(1);
+
+  // -- task2 start processing
+  await pauseMs(0.3 * intervalSec * 1000);
+
+  await pauseMs(1.0 * intervalSec * 1000);
+  expect(onDispatchResult).toBeCalledTimes(1);
+
+  await pauseMs(0.7 * intervalSec * 1000);
+  expect(onDispatchResult).toBeCalledTimes(2);
+
+});

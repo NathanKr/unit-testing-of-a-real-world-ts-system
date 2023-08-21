@@ -18,16 +18,13 @@ export default class TaskScheduler {
     private onDispatchResult?: (res: DispatchedFunctionResult) => void
   ) {
     this._isStarted = false;
+    this.isDispatching = false;
   }
 
   start(): void {
     this._isStarted = true;
     this.handler = window.setInterval(() => {
-      TaskScheduler.dispatchCallback(
-        this.taskDispatcher,
-        this.taskQueue,
-        this.onDispatchResult
-      );
+      this.dispatchCallback();
     }, this.intervalSec * 1000);
   }
 
@@ -39,21 +36,20 @@ export default class TaskScheduler {
   isStarted(): boolean {
     return this._isStarted;
   }
-  // --- static because of closure problem in setInterval
-  private static async dispatchCallback(
-    _taskDispatcher: TaskDispatcher,
-    _taskQueue: TaskQueue,
-    _onDispatchResult?: (res: DispatchedFunctionResult) => void
-  ) {
-    const task = _taskQueue.dequeue();
-    if (task) {
-      const res = await _taskDispatcher.dispatch(task);
-      _onDispatchResult && _onDispatchResult(res);
-    } else {
-      // console.log(`queue is empty`);
+
+  private async dispatchCallback() {
+    if (!this.isDispatching) {
+      this.isDispatching = true;
+      const task = this.taskQueue.dequeue();
+      if (task) {
+        const res = await this.taskDispatcher.dispatch(task);
+        this.onDispatchResult && this.onDispatchResult(res);
+      }
+      this.isDispatching = false;
     }
   }
 
   private handler: number | undefined;
   private _isStarted: boolean;
+  private isDispatching: boolean;
 }
