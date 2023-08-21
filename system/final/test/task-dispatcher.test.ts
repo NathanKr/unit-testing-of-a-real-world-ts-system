@@ -91,3 +91,21 @@ test("dispatch result is ok for add", async () => {
   expect(res.status).toBe("success");
   expect(res.result).toBe(3);
 });
+
+
+test('dispatch function throw -> result status is failure',async ()=>{
+  const map: Map<Action, DispatchedFunction> = new Map();
+  const oTaskDispatcher = new TaskDispatcher(map);
+  const task1: ITask = {
+    action: "action1",
+    payload: { },
+  };
+
+  map.set('action1',()=>{
+    return Promise.reject('some error')
+  })
+
+  const res = await oTaskDispatcher.dispatch(task1);
+  expect(res.status).toBe('failure');
+  expect(res.error).toBe('some error')
+})

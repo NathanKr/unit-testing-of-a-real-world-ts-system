@@ -29,7 +29,12 @@ export default class TaskDispatcher {
 
     const func = this.mapActionToFunction?.get(task.action);
     if (func) {
-      res = await func(task.payload);
+      try {
+        res = await func(task.payload);  
+      } catch (err) {
+        res.error = err;
+      }
+      
     } else {
       res.error = `missing function for action : ${task.action}`
     }
