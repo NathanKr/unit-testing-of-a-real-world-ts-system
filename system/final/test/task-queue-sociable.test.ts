@@ -1,6 +1,7 @@
-import { test, expect, beforeEach } from "vitest";
+import { test, expect, beforeEach, vi } from "vitest";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
+import persist from "../src/lib/persistence";
 
 const taskQueue = new TaskQueue();
 
@@ -102,4 +103,11 @@ test('persist on clear is ok',()=>{
 
   const taskQueue1 = new TaskQueue();
   expect(taskQueue1.length()).toBe(0);
+})
+
+test('no save in dequeue if array is empty',()=>{
+  expect(taskQueue.length()).toBe(0);
+  const spyOnPersistSave = vi.spyOn(persist,'save')
+  taskQueue.dequeue();
+  expect(spyOnPersistSave).toBeCalledTimes(0);
 })

@@ -27,9 +27,11 @@ class TaskQueue{
   */
   dequeue(): ITask | undefined {
     const firstTask = this.queue.shift();
-    this.save();
+    if (firstTask){
+      this.save();
+    }
+    
 
-    // todo nath no need to save if ifrstTask is null
     return firstTask;
   }
 
