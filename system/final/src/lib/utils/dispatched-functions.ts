@@ -2,8 +2,21 @@ import {
   DispatchedFunction,
   DispatchedFunctionResult,
 } from "../../types/dispatched-function";
+import { Payload } from "../../types/types";
 
-export const add: DispatchedFunction = async (obj: { n1: number; n2: number }) => {
+export type AddArgs = { n1: number; n2: number };
+
+function validateAddArgsIsOk(payload: Payload): boolean {
+  const obj = payload as AddArgs;
+  return typeof obj.n1 == "number" && typeof obj.n2 == "number";
+}
+
+export const add: DispatchedFunction = async (payload: Payload) => {
+  if (!validateAddArgsIsOk(payload)) {
+    return { status: "failure", result: {}, error: "validation error" };
+  }
+
+  const obj = payload as AddArgs;
   const res: DispatchedFunctionResult = {
     status: "success",
     result: obj.n1 + obj.n2,
@@ -14,18 +27,14 @@ export const add: DispatchedFunction = async (obj: { n1: number; n2: number }) =
 
 export type AddReturn = number;
 
-
-
-export const getPosts : DispatchedFunction = async ()=>{
+export const getPosts: DispatchedFunction = async () => {
   const res: DispatchedFunctionResult = {
     status: "failure",
-    result : undefined,
+    result: undefined,
   };
 
   try {
-    const response = await fetch(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     const posts: IPost[] = await response.json();
     res.result = posts.length;
     res.status = "success";
@@ -34,8 +43,7 @@ export const getPosts : DispatchedFunction = async ()=>{
   }
 
   return res;
-} 
-
+};
 
 interface IPost {
   userId: number;

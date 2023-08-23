@@ -2,8 +2,9 @@ import { test, expect } from "vitest";
 import TaskDispatcher from "../src/lib/task-dispatcher";
 import { DispatchedFunction } from "../src/types/dispatched-function";
 import { ITask } from "../src/types/i-task";
-import { Action } from "../src/types/types";
+import { Action, Payload } from "../src/types/types";
 import ActionType from "../src/types/e-action-type";
+import { AddArgs } from "../src/lib/utils/dispatched-functions";
 
 test("map empty -> status is failure and error with missing action name", async () => {
   const map: Map<Action, DispatchedFunction> = new Map();
@@ -77,13 +78,12 @@ test("dispatch result is ok for add", async () => {
     payload: { n1: 1, n2: 2 },
   };
 
-  const addDispatch: DispatchedFunction = (payload: {
-    n1: number;
-    n2: number;
-  }) => {
+  const addDispatch: DispatchedFunction = (payload: Payload) => {
+    const obj = payload as AddArgs;
+
     return Promise.resolve({
       status: "success",
-      result: payload.n1 + payload.n2,
+      result: obj.n1 + obj.n2,
     });
   };
 
