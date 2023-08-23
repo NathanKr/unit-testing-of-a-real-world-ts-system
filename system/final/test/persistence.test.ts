@@ -1,6 +1,7 @@
 import { test, expect, vi } from "vitest";
 import persist from "../src/lib/persistence";
 import { ITask } from "../src/types/i-task";
+import ActionType from "../src/types/e-action-type";
 
 test("localStorage is not null", () => {
   expect(localStorage).not.toBe(null);
@@ -19,7 +20,7 @@ test("persist.load() from empty storage in []", () => {
 
 test("save one task and load one task -> is ok", () => {
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { foo: 1 },
   };
 
@@ -33,11 +34,11 @@ test("save one task and load one task -> is ok", () => {
 
 test("save two tasks and load two tasks -> is ok", () => {
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { foo: 1 },
   };
   const task2: ITask = {
-    action: "action2",
+    action: ActionType.action2,
     payload: { bar: 2 },
   };
 
@@ -50,7 +51,7 @@ test("save two tasks and load two tasks -> is ok", () => {
 
 test("save one task  -> console.log is called once", () => {
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { foo: 1 },
   };
 
@@ -68,7 +69,7 @@ test("load -> console.log is called once", () => {
 
 test("save one task  -> console.log is called with correct args", () => {
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { foo: 1 },
   };
 
@@ -101,7 +102,7 @@ test('save -> saveItem of localStorage is called',()=>{
     const spyLocalSorageGetItem = vi.spyOn(Storage.prototype, "setItem");
 
     const task1: ITask = {
-        action: "action1",
+        action: ActionType.action1,
         payload: { foo: 1 },
       };
     

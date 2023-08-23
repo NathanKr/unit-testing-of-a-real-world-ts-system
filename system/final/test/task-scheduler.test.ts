@@ -7,14 +7,15 @@ import { DispatchedFunction } from "../src/types/dispatched-function";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
 import { flushPromises, pauseMs } from "./test-utils";
+import ActionType from "../src/types/e-action-type";
 
 let fakeClock: FakeTimers.InstalledClock;
 const intervalSec = 100;
 const map: Map<Action, DispatchedFunction> = new Map();
-map.set("action1", () => {
+map.set(ActionType.action1, () => {
   return Promise.resolve({ status: "failure", result: {} });
 });
-map.set("action2", () => {
+map.set(ActionType.action2, () => {
   return Promise.resolve({ status: "success", result: {} });
 });
 
@@ -54,7 +55,7 @@ test("enqueue a task , start , wait for interval and get the result and action",
   );
 
   const task: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { baz: "hello" },
   };
 
@@ -70,7 +71,7 @@ test("enqueue a task , start , wait for interval and get the result and action",
   expect(onDispatchResult).toBeCalledTimes(1);
   expect(onDispatchResult).toBeCalledWith(
     { status: "failure", result: {} },
-    "action1"
+    ActionType.action1
   );
 
   fakeClock.tick(intervalSec * 1000);
@@ -83,7 +84,7 @@ test("enqueue a task , no start , wait for interval and no callback called", () 
   new TaskScheduler(intervalSec, taskDispatcher, taskQueue, onDispatchResult);
 
   const task: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { baz: "hello" },
   };
 
@@ -108,11 +109,11 @@ test("enqueue two tasks , start and atop", async () => {
   );
 
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: { baz: "hello" },
   };
   const task2: ITask = {
-    action: "action2",
+    action: ActionType.action2,
     payload: { foo: 1 },
   };
 
@@ -156,7 +157,7 @@ test("long processing task casue scheduling skip", async () => {
   expect(time).not.toBe(0);
 
   const task1: ITask = {
-    action: "action3",
+    action: ActionType.action3,
     payload: {},
   };
 
@@ -168,7 +169,7 @@ test("long processing task casue scheduling skip", async () => {
     onDispatchResult
   );
 
-  map.set("action3", async () => {
+  map.set(ActionType.action3, async () => {
     await pauseMs(1.5 * intervalSec * 1000);
     return { status: "success", result: {} };
   });

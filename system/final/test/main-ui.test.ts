@@ -15,6 +15,7 @@ import {
   findByText,
 } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
+import ActionType from "../src/types/e-action-type";
 
 let appElem: HTMLElement;
 
@@ -37,7 +38,7 @@ test("button enqueueGetPosts invoked --> getPosts and 100 in output", async () =
   await waitFor(
     () => {
       expect(outputElem.textContent).contain("100");
-      expect(outputElem.textContent).contain("getPosts")
+      expect(outputElem.textContent).contain(ActionType.getPosts)
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
   );
@@ -87,14 +88,14 @@ test("click on add -> 3 and add appears in the output", async () => {
   await waitFor(
     () => {
       expect(outputElem.textContent).toContain(3);
-      expect(outputElem.textContent).contain("add")
+      expect(outputElem.textContent).contain(ActionType.add)
     },
     { timeout: SCHEDULER_INTERVAL_SEC * 1000 * 2 }
   );
 });
 
 test("failure status is add --> failure to appear in the ui", async () => {
-  const spyOnAdd = vi.spyOn(functions, "add");
+  const spyOnAdd = vi.spyOn(functions, ActionType.add);
   const resFailure: Promise<DispatchedFunctionResult> = Promise.resolve({
     status: "failure",
     result: undefined,

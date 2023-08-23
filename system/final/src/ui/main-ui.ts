@@ -10,6 +10,7 @@ import {
 } from "../types/dispatched-function.ts";
 import { add, getPosts } from "../lib/utils/dispatched-functions.ts";
 import dayjs from "dayjs";
+import ActionType from "../types/e-action-type.ts";
 
 export const SCHEDULER_INTERVAL_SEC = 2;
 
@@ -34,8 +35,8 @@ export function createDom() {
 export function registerHandlers() {
   // --- create a map
   const map = new Map<Action, DispatchedFunction>();
-  map.set("add", add);
-  map.set("getPosts", getPosts);
+  map.set(ActionType.add, add);
+  map.set(ActionType.getPosts, getPosts);
 
   const taskQueue = new TaskQueue();
   const oTaskDispatcher = new TaskDispatcher(map);
@@ -89,13 +90,13 @@ export function registerHandlers() {
   function enqueueAdd(): void {
     // --- enqueue task
     const payload = { n1: 1, n2: 2 };
-    taskQueue.enqueue({ action: "add", payload });
+    taskQueue.enqueue({ action: ActionType.add, payload });
   }
 
   function enqueueGetPosts(): void {
     // --- enqueue task getPosts
     const payload = null;
-    taskQueue.enqueue({ action: "getPosts", payload });
+    taskQueue.enqueue({ action: ActionType.getPosts, payload });
   }
 
   function queueLengthClickHandle(): void {

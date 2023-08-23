@@ -2,6 +2,7 @@ import { test, expect, beforeEach, vi } from "vitest";
 import TaskQueue from "../src/lib/task-queue";
 import { ITask } from "../src/types/i-task";
 import persist from "../src/lib/persistence";
+import ActionType from "../src/types/e-action-type";
 
 const taskQueue = new TaskQueue();
 
@@ -20,7 +21,7 @@ test("queue is empty -> dequeue return falsy", () => {
 test("queue has few items -> length is ok", () => {
   expect(taskQueue.length()).toBe(0);
   const task: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: {},
   };
   taskQueue.enqueue(task);
@@ -33,11 +34,11 @@ test("queue has few items -> length is ok", () => {
 test("queue not empty -> dequeue return correct task", () => {
   expect(taskQueue.length()).toBe(0);
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: {},
   };
   const task2: ITask = {
-    action: "action2",
+    action: ActionType.action2,
     payload: {},
   };
   taskQueue.enqueue(task1);
@@ -51,7 +52,7 @@ test('persist on enqueue is ok',()=>{
   expect(taskQueue.length()).toBe(0);
 
   const task1: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: {},
   };
   taskQueue.enqueue(task1);
@@ -66,11 +67,11 @@ test('persist on dequeue is ok',()=>{
   expect(taskQueue.length()).toBe(0);
 
   const taskFirst: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: {},
   };
   const taskSecond: ITask = {
-    action: "action2",
+    action: ActionType.action2,
     payload: {},
   };
 
@@ -88,11 +89,11 @@ test('persist on clear is ok',()=>{
   expect(taskQueue.length()).toBe(0);
 
   const taskFirst: ITask = {
-    action: "action1",
+    action: ActionType.action1,
     payload: {},
   };
   const taskSecond: ITask = {
-    action: "action2",
+    action: ActionType.action2,
     payload: {},
   };
 
