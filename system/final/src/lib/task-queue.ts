@@ -35,7 +35,7 @@ class TaskQueue{
     return firstTask;
   }
 
-  length(): number {
+  get length() : number {
     return this.queue.length;
   }
 

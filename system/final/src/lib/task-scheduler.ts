@@ -27,7 +27,7 @@ export default class TaskScheduler {
 
   start(): void {
     this._isStarted = true;
-    this.handler = window.setInterval(() => {
+    this.handler = setInterval(() => {
       this.dispatchCallback();
     }, this.intervalSec * 1000);
   }
@@ -53,7 +53,7 @@ export default class TaskScheduler {
     }
   }
 
-  private handler: number | undefined;
+  private handler: string | number | NodeJS.Timer | undefined;
   private _isStarted: boolean;
   private isDispatching: boolean;
 }

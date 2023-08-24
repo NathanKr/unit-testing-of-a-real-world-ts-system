@@ -1,21 +1,26 @@
 // -- curently in this POC saved to local storage
 
+import IPersistStorage from "../types/i-persist-storage";
 import { ITask } from "../types/i-task";
+import LocalStoragePersist from "./local-storage-persist";
 
-const KEY = "tasks";
-const persist = {
-  // -- using browser extension - save chrome.storage.sync ??
+class Persist {
+  constructor(private storage : IPersistStorage){
+
+  }
+
   save(tasks: ITask[]): void {
     const tasksAsString = JSON.stringify(tasks);
-    localStorage.setItem(KEY, tasksAsString);
-    console.log(KEY,tasksAsString);
-  },
+    this.storage.setValue(tasksAsString)
+    console.log(tasksAsString);
+  }
 
   load(): ITask[] {
-    const tasksAsString = localStorage.getItem(KEY);
+    const tasksAsString = this.storage.getValue();
     console.log(tasksAsString);
     return tasksAsString ? JSON.parse(tasksAsString) : [];
-  },
+  }
 };
 
+const persist = new Persist(new LocalStoragePersist());
 export default persist;

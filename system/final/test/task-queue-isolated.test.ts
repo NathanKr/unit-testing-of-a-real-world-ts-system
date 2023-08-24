@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 test("queue is empty -> length is 0", () => {
-  expect(taskQueue.length()).toBe(0);
+  expect(taskQueue.length).toBe(0);
 });
 
 test("queue is empty -> dequeue return falsy", () => {
@@ -27,20 +27,20 @@ test("queue is empty -> dequeue return falsy", () => {
 });
 
 test("queue has few items -> length is ok", () => {
-  expect(taskQueue.length()).toBe(0);
+  expect(taskQueue.length).toBe(0);
   const task: ITask = {
     action: ActionType.action1,
     payload: {},
   };
   taskQueue.enqueue(task);
-  expect(taskQueue.length()).toBe(1);
+  expect(taskQueue.length).toBe(1);
 
   taskQueue.enqueue(task);
-  expect(taskQueue.length()).toBe(2);
+  expect(taskQueue.length).toBe(2);
 });
 
 test("queue not empty -> dequeue return correct task", () => {
-  expect(taskQueue.length()).toBe(0);
+  expect(taskQueue.length).toBe(0);
   const task1: ITask = {
     action: ActionType.action1,
     payload: {},
@@ -52,7 +52,7 @@ test("queue not empty -> dequeue return correct task", () => {
   taskQueue.enqueue(task1);
   taskQueue.enqueue(task2);
 
-  expect(taskQueue.length()).toBe(2);
+  expect(taskQueue.length).toBe(2);
 });
 
 test('persist.load is called for new TaskQueue',()=>{
@@ -61,7 +61,7 @@ test('persist.load is called for new TaskQueue',()=>{
 })
 
 test('persist.save is called on enqueue with correct arguments',()=>{
-  expect(taskQueue.length()).toBe(0);
+  expect(taskQueue.length).toBe(0);
   const task1: ITask = {
     action: ActionType.action1,
     payload: {},
@@ -81,7 +81,7 @@ test('persist.save is called on enqueue with correct arguments',()=>{
 })
 
 test('persist.save is called on dequeue ',()=>{
-  expect(taskQueue.length()).toBe(0);
+  expect(taskQueue.length).toBe(0);
   const task1: ITask = {
     action: ActionType.action1,
     payload: {},

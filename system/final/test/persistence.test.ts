@@ -76,9 +76,8 @@ test("save one task  -> console.log is called with correct args", () => {
   const tasks: ITask[] = [task1];
   const spyOnConsoleLog = vi.spyOn(console, "log");
   const tasksAsString = JSON.stringify(tasks);
-  const KEY = "tasks";
   persist.save(tasks);
-  expect(spyOnConsoleLog).toBeCalledWith(KEY, tasksAsString);
+  expect(spyOnConsoleLog).toBeCalledWith(tasksAsString);
   expect(spyOnConsoleLog).toHaveReturnedWith(undefined);
 });
 
