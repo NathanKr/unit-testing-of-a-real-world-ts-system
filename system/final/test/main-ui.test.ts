@@ -1,9 +1,8 @@
 import { test, expect, beforeEach, vi } from "vitest";
 import {
-  SCHEDULER_INTERVAL_SEC,
   createDom,
   registerHandlers,
-} from "../src/ui/main-ui";
+} from "../src/ui/vanilla/main-ui";
 import { ButtonsText, getEnumKeyValues } from "./test-utils";
 import * as functions from "../src/lib/utils/dispatched-functions";
 import { DispatchedFunctionResult } from "../src/types/dispatched-function";
@@ -16,6 +15,7 @@ import {
 } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import ActionType from "../src/types/e-action-type";
+import { SCHEDULER_INTERVAL_SEC } from "../src/ui/common/utils";
 
 let appElem: HTMLElement;
 
