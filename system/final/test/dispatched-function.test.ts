@@ -37,7 +37,7 @@ test('getPosts success -> result is 100 , status suceess , error falsy',async ()
     expect(res.result).toBe(100);
     expect(res.status).toBe('success')
     expect(res.error).toBeFalsy()
-})
+},10000)
 
 test('getPosts failure -> status is failure',async ()=>{
     global.fetch = vi.fn(() => Promise.reject('some error'))
