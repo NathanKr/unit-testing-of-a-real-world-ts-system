@@ -144,5 +144,15 @@ test("failure status is add --> failure to appear in the ui", async () => {
     expect(outputElemWithText).toBeInTheDocument();
   });
   
-  
+  test('start , stop -> isSchedulerStarted is false',async ()=>{
+    userEvent.click(screen.getByText( ButtonsText.StartScheduler));
+    userEvent.click(screen.getByText( ButtonsText.IsSchedulerRunning));
+    let outputElemWithText = await screen.findByText("isSchedulerStarted : true");
+    expect(outputElemWithText).toBeInTheDocument();
+
+    userEvent.click(screen.getByText( ButtonsText.StopScheduler));
+    userEvent.click(screen.getByText( ButtonsText.IsSchedulerRunning));
+    outputElemWithText = await screen.findByText("isSchedulerStarted : false");
+    expect(outputElemWithText).toBeInTheDocument();
+  })
   

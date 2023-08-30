@@ -23,9 +23,7 @@ export default class TaskQueueSystemForUi {
     );
   }
 
-  setOnDispatchResult(onDispatchResult: OnDispatchResult){
-    this.onDispatchResult = onDispatchResult;
-  }
+
   get taskScheduler() : TaskScheduler{
     return this._taskScheduler
   } 

@@ -155,3 +155,15 @@ test("button isSchedulerStarted invoked --> correct value in output", async () =
 });
 
 
+  
+test('start , stop -> isSchedulerStarted is false',async ()=>{
+  userEvent.click(getByText(appElem, ButtonsText.StartScheduler));
+  userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
+  let outputElemWithText = await findByText(appElem,"isSchedulerStarted : true");
+  expect(outputElemWithText).toBeInTheDocument();
+
+  userEvent.click(getByText(appElem, ButtonsText.StopScheduler));
+  userEvent.click(getByText(appElem, ButtonsText.IsSchedulerRunning));
+  outputElemWithText = await findByText(appElem,"isSchedulerStarted : false");
+  expect(outputElemWithText).toBeInTheDocument();
+})

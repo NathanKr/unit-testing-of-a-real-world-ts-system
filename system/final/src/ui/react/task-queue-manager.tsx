@@ -53,7 +53,7 @@ function TaskQueueManager() {
       <button onClick={() => oTaskQueueSystemForUi.start()} className={style.container}>
         start scheduler
       </button>
-      <button onClick={stop} className={style.container}>
+      <button onClick={() => oTaskQueueSystemForUi.stop()} className={style.container}>
         stop scheduler
       </button>
       <button onClick={queueLengthClickHandler} className={style.container}>
