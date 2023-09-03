@@ -3,6 +3,7 @@ import {
   DispatchedFunctionResult,
 } from "../../types/dispatched-function";
 import { Payload } from "../../types/types";
+import axios from 'axios'
 
 export type AddArgs = { n1: number; n2: number };
 
@@ -34,8 +35,8 @@ export const getPosts: DispatchedFunction = async () => {
   };
 
   try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const posts: IPost[] = await response.json();
+    const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+    const posts: IPost[] = response.data;
     res.result = posts.length;
     res.status = "success";
   } catch (err) {

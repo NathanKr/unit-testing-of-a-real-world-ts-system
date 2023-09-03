@@ -18,7 +18,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    // --- nathan added esModuleInterop to handle dayjs
+    "esModuleInterop": true
   },
-  "include": ["src", "test"]
+
+  // --- nathan added test-jest , to be included in the compile process
+  "include": ["src", "test", "test-jest"]
 }

@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "test-jest": "jest test-jest --watch",
-    "coverage-jest":"jest test-jest --coverage"
+    "test-jest": "jest --watch",
+    "coverage-jest": "jest --coverage"
   },
   "devDependencies": {
     "@sinonjs/fake-timers": "^11.0.0",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.0.4",
+    "axios": "^1.5.0",
     "dayjs": "^1.11.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
