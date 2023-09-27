@@ -32,8 +32,8 @@ export const getPosts: DispatchedFunction = async () => {
   const res: DispatchedFunctionResult = {
     status: "failure",
     result: undefined,
-  };
-
+  };  
+     
   try {
     const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
     const posts: IPost[] = response.data;

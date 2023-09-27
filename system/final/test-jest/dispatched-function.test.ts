@@ -34,10 +34,10 @@ test('add(2,3) is success and 5 , error falsy',async ()=>{
 
 test('getPosts success -> result is 100 , status suceess , error falsy',async ()=>{
     const res = await getPosts(null);
-    expect(res.error).toBeFalsy()
+    expect(res.error).toBeFalsy() 
     expect(res.result).toBe(100);
     expect(res.status).toBe('success')
-},10000)
+},10000)  
 
 test('getPosts failure -> status is failure',async ()=>{
     axios.get = jest.fn(() => Promise.reject('some error'))

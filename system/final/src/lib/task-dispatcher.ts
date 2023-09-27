@@ -26,7 +26,7 @@ export default class TaskDispatcher {
       result: {},
     };
     // --- get function
-
+ 
     const func = this.mapActionToFunction?.get(task.action);
     if (func) {
       try {

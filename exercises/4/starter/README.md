@@ -1,0 +1,21 @@
+<h2>Exercise 4</h2>
+
+<h3>Subject</h3> 
+Bug fix with unit test - Fix two bugs in grade-calculator.ts
+
+<h3>Section 6 </h3>
+Unit testing of pure logic code - TaskDispatcher
+
+
+<h3>Your task</h3>
+fix the bugs
+<ul>
+<li>Start with the second row from the file</li>
+<li>The student's name is not correct
+</li>
+</ul>
+
+<h3>Guidelines</h3>
+<ol>
+<li>Add tests, change source, use a filter, and debug</li>
+</ol>

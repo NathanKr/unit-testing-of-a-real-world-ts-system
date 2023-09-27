@@ -21,6 +21,6 @@ class Persist {
     return tasksAsString ? JSON.parse(tasksAsString) : [];
   }
 };
-
+        
 const persist = new Persist(new LocalStoragePersist());
 export default persist;
