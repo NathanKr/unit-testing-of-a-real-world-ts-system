@@ -13,6 +13,7 @@ Use the react testing library for a few unit tests of grade calculator react UI
 
 <h3>Guidelines</h3>
 <ol>
+<li>Invoke npm run dev to see the react UI (the vanilla file in index.htnl is remarked)</li>
 <li>Create the file app.test.tsx under  exercises\12\final\test</li>
 <li>Create the following tests
 <ul>
