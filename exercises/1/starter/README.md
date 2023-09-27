@@ -11,5 +11,14 @@ create a unit test for calculateAverage(grades: number[]) : number
 
 <h3>Guidelines</h3>
 <ol>
-<li>Create a file math.test.ts under exercises\1\final\test.</li>
+<li>exercises\1\starter is created from simple-unit-test</li>
+<li>The test should be in math.test.ts under exercises\1\final\test</li>
+<li>Test for the following use cases</li>
+<ul>
+<li>[] -> Nan</li>
+<li>[1] -> 1</li>
+<li>[1, 2, 3] -> 2</li>
+<li>[-1, 4, 3] ->2</li>
+<li>[-1, 4, -3] ->0</li>
+</ul>
 </ol>
