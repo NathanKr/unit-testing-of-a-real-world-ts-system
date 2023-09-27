@@ -7,14 +7,20 @@ Unit test of pure logic module - grade-calculator.ts
 Unit test of pure logic code - TaskQueue
 
 <h3>Your task</h3>
-unit test the functions
+<ol>
+<li>move test directory from exercises\2\final\src\test to exercises\2\final\test and fix tests to pass</li>
+<li>
+unit test the functions of the module grade-calculator.ts :
 <ul>
 <li>parseCSV</li>
 <li>calculateAverage</li>
 </ul>
-
+</li>
+</ol>
 
 <h3>Guidelines</h3>
 <ol>
 <li>Create a file grade-calculator.test.ts under exercises\2\final\test</li>
+<li>parseCSV read grades from string which has the content of csv file as in exercises\2\final\data\grades.csv</li>
+<li>parseCSV has a bug ,your test should find it</li>
 </ol>
