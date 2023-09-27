@@ -4,7 +4,7 @@ export function parseCSV(csvData: string): number[] {
   const lines = csvData.split("\n");
   const grades: number[] = [];
 
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (line.length > 0) {
       const parts = line.split(",");
