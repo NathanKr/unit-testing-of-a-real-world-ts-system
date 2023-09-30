@@ -7,7 +7,8 @@ Unit test of a module with side effects - unit test of grade-calculator.ts with 
 <h3>Section 8</h3>
 Unit test of persist with side effect
 
-<h3>Your task</h3>
+
+<h3>Your task1</h3>
 <ul>
 <li>Add console.log of grades in parseCSV</li>
 <li>Add console.log of average in calculateAverage</li>
@@ -17,3 +18,5 @@ Unit test of persist with side effect
 <h3>Guidelines</h3>
 Use spyOn
 
+<h3>Your task2</h3>
+create a test where toStrictEqual is false and a test where toStrictEqual is true
