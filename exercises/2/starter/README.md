@@ -13,7 +13,7 @@ Unit test of pure logic code - TaskQueue
 unit test the functions of the module grade-calculator.ts :
 <ul>
 <li>parseCSV</li>
-<li>calculateAverage</li>
+<li>* calculateAverage</li>
 </ul>
 </li>
 </ol>
@@ -23,4 +23,5 @@ unit test the functions of the module grade-calculator.ts :
 <li>Create a file grade-calculator.test.ts under exercises\2\final\test</li>
 <li>parseCSV read grades from string which has the content of csv file as in exercises\2\final\data\grades.csv</li>
 <li>parseCSV has a bug ,your test should find it i.e. create a test that will fail when the bug exist and pass when the bug will be fixed</li>
+<li>toBe will not be good for parseCSV - you need to find a better matcher</li>
 </ol>
