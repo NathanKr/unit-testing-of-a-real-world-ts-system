@@ -10,4 +10,4 @@ Code coverage
 invoke test coverage and verify it is 100%
 
 <h3>Guidelines</h3>
-None
+use the dictionary file under docs
