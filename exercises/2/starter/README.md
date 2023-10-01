@@ -22,5 +22,5 @@ unit test the functions of the module grade-calculator.ts :
 <ol>
 <li>Create a file grade-calculator.test.ts under exercises\2\final\test</li>
 <li>parseCSV read grades from string which has the content of csv file as in exercises\2\final\data\grades.csv</li>
-<li>parseCSV has a bug ,your test should find it</li>
+<li>parseCSV has a bug ,your test should find it i.e. create a test that will fail when the bug exist and pass when the bug will be fixed</li>
 </ol>
