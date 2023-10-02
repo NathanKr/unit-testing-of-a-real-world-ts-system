@@ -21,9 +21,16 @@ export function parseCSV(csvData: string): IStudent[] {
     }
   }
 
+  const grades =students.map(it=> it.grade) 
+  console.log(grades)
+
   return students;
 }
 
 export function calculateAverage(grades: number[]): number {
-  return math.calculateAverage(grades);
+  const avg = math.calculateAverage(grades);
+
+  console.log(avg)
+
+  return avg;
 }
