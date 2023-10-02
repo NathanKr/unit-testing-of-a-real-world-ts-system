@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { calculateAverage, parseCSV } from "../src/grades-calculator";
+import { calculateAverage, parseCSV } from "../src/lib/grades-calculator";
 
 test("calculateAverage is ok", () => {
   expect(calculateAverage([])).toBe(NaN);
