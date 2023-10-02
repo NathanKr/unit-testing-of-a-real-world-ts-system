@@ -19,4 +19,4 @@ Unit test of persist with side effect
 Use spyOn
 
 <h3>Your task2</h3>
-create a test where toStrictEqual is false and a test where toStrictEqual is true
+Create a test where toStrictEqual is false and a test where toStrictEqual is true and put it inside misc.test.ts
