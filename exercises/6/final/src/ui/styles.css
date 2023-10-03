@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+h1 {
+    color: #007bff;
+}
+
+input[type="file"] {
+    margin: 10px 0;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+#results {
+    margin-top: 20px;
+}
+
+#average, #maximum, #minimum {
+    font-weight: bold;
+    color: #007bff;
+}
