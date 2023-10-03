@@ -18,5 +18,5 @@ Unit tests with Jest
 <ol>
 <li>Configure vitest to work only on test directory</li>
 <li>Configure jest to work on test-jest</li>
-<li>Copy the test files  from test directory to test-jest and tweak the files on test-jest to work with jest</li>
+<li>Copy the test files from the test directory to test-jest and tweak the files on test-jest to work with jest</li>
 </ol>

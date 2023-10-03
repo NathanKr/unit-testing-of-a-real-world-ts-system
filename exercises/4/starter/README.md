@@ -17,7 +17,7 @@ fix the bugs
 
 <h3>Guidelines</h3>
 <ol>
-<li>invoke npm run dev to see the ui and two bugs</li>
+<li>invoke npm run dev to see the UI and two bugs</li>
 <li>Add tests, change source, use a filter, and debug</li>
 <li>use the dictionary file under docs </li>
 </ol>

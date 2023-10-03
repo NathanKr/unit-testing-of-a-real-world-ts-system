@@ -1,7 +1,7 @@
 <h2>Exercise 8</h2>
 
 <h3>Subject</h3> 
-Verify jsdom is ready
+Verify that jsdom is ready
 
 <h3>Section 12</h3>
 Frontend unit testing with jsdom

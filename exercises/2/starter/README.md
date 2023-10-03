@@ -21,7 +21,7 @@ unit test the functions of the module grade-calculator.ts :
 <h3>Guidelines</h3>
 <ol>
 <li>Create a file grade-calculator.test.ts under exercises\2\final\test</li>
-<li>parseCSV read grades from string which has the content of csv file as in exercises\2\final\data\grades.csv</li>
-<li>parseCSV has a bug ,your test should find it i.e. create a test that will fail when the bug exist and pass when the bug will be fixed</li>
+<li>parseCSV read grades from a string that has the content of a CSV file as in exercises\2\final\data\grades.csv</li>
+<li>parseCSV has a bug; your test should find it, i.e., create a test that will fail when the bug exists and pass when the bug is fixed</li>
 <li>toBe will not be good for parseCSV - you need to find a better matcher</li>
 </ol>
