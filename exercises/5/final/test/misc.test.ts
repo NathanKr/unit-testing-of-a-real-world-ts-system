@@ -28,3 +28,15 @@ test("toStrictEqual is false", () => {
   expect(array1).not.toStrictEqual(array2);
 });
 
+test('toEqual pass',()=>{
+  const obj1 = {a : undefined , b : 122};
+  const obj2 = {b : 122};
+  expect(obj1).toEqual(obj2)
+})
+
+
+test('toStrictEqual not pass',()=>{
+  const obj1 = {a : undefined , b : 122};
+  const obj2 = {b : 122};
+  expect(obj1).not.toStrictEqual(obj2)
+})
