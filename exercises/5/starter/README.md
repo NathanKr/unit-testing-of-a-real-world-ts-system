@@ -18,5 +18,11 @@ Unit test of persist with side effect
 <h3>Guidelines</h3>
 Use spyOn
 
-<h3>Your task2</h3>
-Create a test where toStrictEqual is false and a test where toStrictEqual is true and put it inside misc.test.ts
+<h3>* Your task2</h3>
+<ul>
+<li>Create a test where toStrictEqual is false and a test where toStrictEqual is true </li>
+<li>Create tests that will show the difference between toEqual and toStrictEqual</li>
+</ul>
+
+<h3>Guidelines</h3>
+put these tests inside misc.test.ts
