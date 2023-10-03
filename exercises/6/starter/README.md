@@ -8,12 +8,14 @@ Unit test of TaskQueue with persist module interaction
 
 <h3>Your task</h3>
 <ul>
-<li>Replace console.log with Logger from ts-log</li>
+<li>* Replace console.log with Logger from ts-log</li>
 <li>Unit test that Logger is called with correct arguments</li>
 </ul>
 
 <h3>Guidelines</h3>
 <ol>
+<li>learn about ts-log and its benefits</li>
 <li>Use spyOn</li>
 <li>Use fn()</li>
+<li>Put these tests in grade-calculator-isolated.test.ts</li>
 </ol>
