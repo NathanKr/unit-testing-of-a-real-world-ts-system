@@ -16,6 +16,7 @@ Advanced typescript for better code
 
 <h3>Guidelines</h3>
 <ol>
+<li>Use vitest as test runner , vite is not required</li>
 <li>Use the files in src directory of <a href='https://github.com/NathanKr/unit-testing-of-a-real-world-ts-system/releases/tag/0.83'>version 0.83</a> for the project</li>
 <li>Exported persist should use ServerFilePersist </li>
 <li>Update exercises\11\final\test\persistence.test.ts to fit ServerFilePersist</li>
