@@ -30,11 +30,8 @@ export function registerHandlers() {
 
 // Function to update the time
 function updateCalculationTime() {
- 
   // Update the content of the 'time' div with the current time
-  document.getElementById(
-    "time"
-  )!.textContent = createCalculationTimeText();
+  document.getElementById("time")!.textContent = createCalculationTimeText();
 }
 
 function handleFile(e: Event) {
@@ -45,17 +42,15 @@ function handleFile(e: Event) {
   reader.onload = function (event: ProgressEvent<FileReader>) {
     const csvData = event.target!.result as string;
     const students = parseCSV(csvData);
-    const grades : number [] = students.map(it => it.grade)
+    const grades: number[] = students.map((it) => it.grade);
 
     if (students.length > 0) {
       displayTable(students);
       calculateResults(grades);
     } else {
       // alert("No data found in the CSV file.");
-            // alert("No data found in the CSV file.");
-            document.getElementById('error')!.innerHTML =
-            "<p>No data found in the CSV file</p>";     
-      
+      document.getElementById("error")!.innerHTML =
+        "<p>No data found in the CSV file</p>";
     }
   };
 
