@@ -9,7 +9,7 @@ Advanced typescript for better code
 
 <h3>Your task</h3>
 <ol>
-<li>** Setup the task queue manager project to run on the server</li>
+<li>** Setup the task queue manager project to be tested the server</li>
 <li>* Create server-file-persist.ts under exercises\11\final\src\lib with ServerFilePersist implements IPersistStorage and uses it in the code</li>
 <li>Add unit test </li>
 </ol>
