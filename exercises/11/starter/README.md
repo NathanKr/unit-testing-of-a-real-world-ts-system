@@ -1,7 +1,7 @@
 <h2>Exercise 11 **</h2>
 
 <h3>Subject</h3> 
-Configure the project to run on the SERVER with a matching persist concrete class and unit test
+Configure the project to run on node server with a matching persist concrete class and unit test
 
 
 <h3>Section 15 </h3>
