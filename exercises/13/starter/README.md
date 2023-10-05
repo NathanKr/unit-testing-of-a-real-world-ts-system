@@ -10,13 +10,12 @@ Unit tests with Jest
 
 <h3>Your task</h3>
 <ul>
-<li>* Setup the task queue manager project to run on the server with jest</li>
+<li>* Setup the task queue manager project to be tested on the server with jest</li>
 <li>Take the tests that work with vitest and make them work with jest</li>
 </ul>
 
 <h3>Guidelines</h3>
 <ol>
-<li>Configure vitest to work only on test directory</li>
-<li>Configure jest to work on test-jest</li>
-<li>Copy the test files from the test directory to test-jest and tweak the files on test-jest to work with jest</li>
+<li>use the source and test files from <a href='https://github.com/NathanKr/unit-testing-of-a-real-world-ts-system/tree/main/exercises/11/final'>exc 11</a> tag 1.31</li>
+<li>use tsconfig.json from <a href='https://github.com/NathanKr/ts-node-playground/releases/tag/1.0'>here</a>
 </ol>
