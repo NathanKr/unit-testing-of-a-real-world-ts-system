@@ -1,12 +1,10 @@
 <h2>Exercise 13 *</h2>
 
 <h3>Subject</h3> 
-Use jest for a project that runs on the SERVER 
-
+Use jest for a project that runs on the SERVER
 
 <h3>Section 17 </h3>
 Unit tests with Jest
-
 
 <h3>Your task</h3>
 <ul>
@@ -16,6 +14,6 @@ Unit tests with Jest
 
 <h3>Guidelines</h3>
 <ol>
-<li>use the source and test files from <a href='https://github.com/NathanKr/unit-testing-of-a-real-world-ts-system/tree/main/exercises/11/final'>exc 11</a> tag 1.31</li>
+<li>use the source and test files from <a href='https://github.com/NathanKr/unit-testing-of-a-real-world-ts-system/tree/main/exercises/11/final'>exc 11</a> tag 1.33</li>
 <li>use tsconfig.json from <a href='https://github.com/NathanKr/ts-node-playground/releases/tag/1.0'>here</a>
 </ol>
