@@ -4,7 +4,9 @@ import { ITask } from "../src/types/i-task";
 import ActionType from "../src/types/e-action-type";
 import { beforeEach } from "vitest";
 
-
+beforeEach(()=>{
+  persist.save([])
+})
 
 /*test("localStorage is not null", () => {
   expect(localStorage).not.toBe(null);

@@ -3,6 +3,7 @@ import { ITask } from "../src/types/i-task";
 import ActionType from "../src/types/e-action-type";
 
 beforeEach(()=>{
+  persist.save([])
   jest.clearAllMocks()
 })
 
